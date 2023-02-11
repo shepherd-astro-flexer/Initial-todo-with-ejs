@@ -1,7 +1,8 @@
 const express = require("express");
 // ? Not needed? const ejs = require("ejs"); 
 const bodyParser = require("body-parser");
- 
+const getDate = require(__dirname + `\\get-date.js`) // Since we are not installing our module using npm, then we must specify the location of the file that we are referrencing.
+console.log(getDate)
 const app = express();
 
 app.use(express.static("public"))
@@ -10,21 +11,14 @@ let todos = ["Buy Food", "Cook Food", "Eat Food"];
 
 let workTodos = [];
 
-let contacts = []
+let contacts = [];
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs"); // use app.set here, not app.use, and the "view engine" should be separated by space, not a dash
 
 app.get("/", (req, res) => {
-  const newDate = new Date();
-  const options = {
-    weekday: "long",
-    month: "long",
-    day: "numeric"
-  }
-  
-  const day = newDate.toLocaleDateString("en-US", options);
+  const day = getDate.date();
 
   // the newTodo on the .ejs file is basically the todos array, so we can loop over it
   // in this case, the newTodos value is an array
